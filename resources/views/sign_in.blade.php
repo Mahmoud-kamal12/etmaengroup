@@ -14,8 +14,9 @@
                     @enderror
                 </div>
                 <div class="form-group">
-                    <label>رقم الهويه *</label><!--pattern="[0-9a-zA-z]{5,}"-->
-                    <input type="text" id="id" name="id_number" value="{{ old('id_number') }}" class="form-control" required autocomplete="off" placeholder="برجاء كتابة رقم الهوية السعودىه">
+                    <label>رقم الهويه *</label>
+                    <input type="text" id="id" name="id_number" value="{{ old('id_number') }}" 
+                    pattern="(^[124]{1}[0-9]{9})$" class="form-control" required autocomplete="off" placeholder="برجاء كتابة رقم الهوية السعودىه">
                     @error('id_number')
                         <span class="text-danger">{{$message}}</span>
                     @enderror
