@@ -39,7 +39,7 @@
                 <ol class="breadcrumb pull-right">
                     <li class="breadcrumb-item"><a href="#"><i data-feather="home"></i></a></li>
                     <li class="breadcrumb-item active">لوحه التحكم</li>
-                    <li class="breadcrumb-item active">الحجوزات</li>
+                    <li class="breadcrumb-item active">الاختبارات</li>
                 </ol>
             </div>
         </div>
@@ -75,7 +75,6 @@
                                     <th>المتدرب</th>
                                     <th>الدوره</th>
                                     <th>الدرجه</th>
-                                    <th>العمليات</th>
                                     <th>تقيم الاختبار</th>
                                 </tr>
                             </thead>
@@ -99,11 +98,7 @@
                                         <!-- completed row -->
                                         @include('admin.bookings.completed')
                                         <!-- end completed row -->
-                                        <td>
-                                            <a href="{{route("admin/bookings/quiz-info" , $booking->id)}}">
-                                                <i class="fas fa-share"></i>
-                                            </a>
-                                        </td>
+
                                     </td>
                                 </tr>
                                 @endforeach

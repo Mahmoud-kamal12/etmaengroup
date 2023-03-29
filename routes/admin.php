@@ -121,6 +121,8 @@ use Illuminate\Support\Facades\Route;
 
                 Route::get('bookings/quiz-info/{id}', 'BookingsController@quiz_info')->name('admin/bookings/quiz-info');
                 Route::post('bookings/quiz_rate/{id}', 'BookingsController@quiz_rate')->name('admin/bookings/quiz_rate');
+                Route::get('bookings/quiz_index_not', 'BookingsController@quiz_index_not')->name('admin/bookings/quiz_index_not');
+                Route::get('bookings/quiz_index', 'BookingsController@quiz_index')->name('admin/bookings/quiz_index');
 
                 // questionnaire routes
                 Route::get('questionnaires/index', 'QuestionnairesController@index')->name('admin/questionnaires/index');

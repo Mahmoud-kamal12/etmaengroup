@@ -16,7 +16,7 @@
                <div class="d-flex justify-content-between align-items-center">
                 <div>
                 <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse-{{$course->id}}" aria-expanded="true" aria-controls="collapse-{{$course->id}}">
-                  {{$course->title}} 
+                  {{$course->title}}
                 </button>
                     <p class="d-inline text-warning"> ( {{$booking->uuid_completed  == null ? "غير مكتمل"  :  "مكتمل"}} ) </p>
                     </div>
@@ -25,11 +25,11 @@
 
                   @else
                   <div>
-                      <a class="text-dark text-blink" href="{{route('course/mycourses/quiz',$course->id)}}"> اداء الاختبار </a>
-                      <p style="display: inline;">درجة الاختبار  : {{$booking->raw}} </p>
+                      <a class="text-dark text-blink btn btn-primary" style="margin-left:10px;color:white !important;" href="{{route('course/mycourses/quiz',$course->id)}}"> اداء الاختبار </a>
+                      <p style="display: inline;color: red">درجة الاختبار  : {{$booking->raw}} </p>
                       </div>
                   @endif
-                  
+
                   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-original-title="test" data-bs-target="#myModalrate-{{$course->id}}">
                       تقيم الدوره
                   </button>
@@ -66,7 +66,7 @@
 
               <div class="form-group">
                 <label class="col-form-label pt-0"><span>*</span> تقيم الدوره</label>
-                <textarea class="form-control" name="review" type="text" required=""></textarea>
+                <textarea class="form-control" name="review" rows="5" type="text" required=""></textarea>
               </div>
               <div class="form-group text-center align-content-center">
                 <input class="btn btn-primary" type="submit" value="ارسال">

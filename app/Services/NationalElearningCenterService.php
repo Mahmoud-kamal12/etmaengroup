@@ -1,6 +1,8 @@
 <?php
 namespace App\Services;
 
+use Carbon\Carbon;
+
 class NationalElearningCenterService
 {
 
@@ -268,29 +270,15 @@ class NationalElearningCenterService
         return $dataJsonResponse;
     }
 
-    public function attempted($booking, $user, $course, $lesson)
+    public function attempted($booking, $user, $course)
     {
         $courseUrl = route("course/details" , $course->id);
-        $lessonUrl = route("lesson/details" , $lesson->id);
-        $count = explode(":",$lesson->duration);
-        $duration = "";
-        if (count($count) === 3){
-            $hour = $count[0];
-            $minutes = $count[1];
-            $second = $count[2];
-            $duration = "{$hour} hours {$minutes} minutes {$second} seconds";
-            $duration = $this->time_to_iso8601_duration(strtotime($duration,0));
-        }elseif (count($count) === 2){
-            $minutes = $count[0];
-            $second = $count[1];
-            $duration = "0 hours {$minutes} minutes {$second} seconds";
-            $duration = $this->time_to_iso8601_duration(strtotime($duration,0));
-        }
+        $quizUrl = route("course/mycourses/quiz" , $course->id);
 
         if(mb_detect_encoding($course->title) !== 'UTF-8'){ $lang_title = "en-US"; }else{ $lang_title = "ar-SA"; }
         if(mb_detect_encoding($course->description) !== 'UTF-8'){ $lang_description = "en-US"; }else{ $lang_description = "ar-SA"; }
-        $title = $course->title .'- Unit'. $lesson->arrange . $lesson->title;
-        $description = $course->description .'- Unit'. $lesson->arrange . $lesson->description;
+        $title = $course->title . " Quiz -1";
+        $description = $course->description . " Quiz -1";
         $data = [
             "actor" => [
                 "mbox" => "mailto:$user->email",
@@ -302,7 +290,7 @@ class NationalElearningCenterService
                 "display" => ["en-US" => "attempted"],
             ],
             "object" => [
-                "id" => "$lessonUrl",
+                "id" => "$quizUrl",
                 "definition" => [
                     "name" => [$lang_title => "$title"],
                     "description" => [$lang_description => "$description"],
@@ -336,10 +324,10 @@ class NationalElearningCenterService
                 "completion" => true,
                 "success" => true,
                 "score" => [
-                    "scaled" => "", // النسبه
-                    "raw"    => "", // المجموع
+                    "scaled" => round( $booking->max / $booking->raw , 2), // النسبه
+                    "raw"    => $booking->raw, // المجموع
                     "min"    => 0, // اقل درجه
-                    "max"    => "" // اعلى درجه
+                    "max"    => $booking->max // اعلى درجه
                 ],
             ],
             "timestamp" => "$booking->created_at"
@@ -365,9 +353,10 @@ class NationalElearningCenterService
         return $dataJsonResponse;
     }
 
-    public function rated($booking, $user, $course)
+    public function rated($user, $course , $dataArr)
     {
         $courseUrl = route("course/details" , $course->id);
+        $date = Carbon::now();
 
         if(mb_detect_encoding($course->title) !== 'UTF-8'){ $lang_title = "en-US"; }else{ $lang_title = "ar-SA"; }
         if(mb_detect_encoding($course->description) !== 'UTF-8'){ $lang_description = "en-US"; }else{ $lang_description = "ar-SA"; }
@@ -401,14 +390,14 @@ class NationalElearningCenterService
             ],
             "result" => [
                 "score" => [
-                    "scaled" => "", // النسبه
-                    "raw"    => "", // المجموع
+                    "scaled" => $dataArr['rate'] / 10, // النسبه
+                    "raw"    => (int)$dataArr['rate'], // المجموع
                     "min"    => 0, // اقل درجه
-                    "max"    => "" // اعلى درجه
+                    "max"    => 10 // اعلى درجه
                 ],
-                "response" => "Text review written by the evaluator"
+                "response" => "{$dataArr['review']}"
             ],
-            "timestamp" => "$booking->created_at"
+            "timestamp" => "$date"
         ];
         $dataJson = json_encode($data);
         $url = 'https://lrs.nelc.gov.sa/staging-lrs/xapi/statements';
@@ -434,6 +423,7 @@ class NationalElearningCenterService
     public function earned($booking, $user, $course)
     {
         $courseUrl = route("course/details" , $course->id);
+        $cercourseUrl = route("course/details" , $course->id) . ".CF" . $course->id . $user->id;
 
         if(mb_detect_encoding($course->title) !== 'UTF-8'){ $lang_title = "en-US"; }else{ $lang_title = "ar-SA"; }
         if(mb_detect_encoding($course->description) !== 'UTF-8'){ $lang_description = "en-US"; }else{ $lang_description = "ar-SA"; }
@@ -448,19 +438,14 @@ class NationalElearningCenterService
                 "display" => ["en-US" => "earned"]
             ],
             "object" => [
-                "id" => "$courseUrl",
+                "id" => "$cercourseUrl" ,
                 "definition" => [
-                    "name" => [$lang_title => "$course->title"],
-                    "description" => [$lang_description => "$course->description"],
+                    "name" => [$lang_title => "$course->title Certificate"],
                     "type" => "https://www.opigno.org/en/tincan_registry/activity_type/certificate"
                 ],
                 "objectType" => "Activity"
             ],
             "context" => [
-                "instructor" => [
-                    "name" => "Etmaen Group",
-                    "mbox" => "mailto:info@etmaengroup.com"
-                ],
                 "platform" => "ETMAEN_001",
                 "language" => "ar-SA",
                 "extensions" =>[],

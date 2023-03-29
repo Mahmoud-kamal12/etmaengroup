@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Models\Settings;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Pagination\Paginator;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,5 +28,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         view()->share('settings', Settings::all());
+        Paginator::useBootstrap();
+//        Paginator::useBootstrapFour();
     }
 }

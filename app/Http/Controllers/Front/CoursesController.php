@@ -7,6 +7,7 @@ use App\Http\Repository\Eloquent\BookingRepository;
 use App\Models\Product;
 use App\Models\Question;
 use App\Models\User;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
@@ -355,8 +356,12 @@ class CoursesController extends Controller
             flash()->error("يجب التسجيل فى الدوره لاداء الاختبار الخاص");
             return \redirect()->route("course/mycourses");
         }
-        if ($booking->quiz !== null){
+        if ($booking->quiz !== null and $booking->marked == 0){
             flash()->success("تم  ارسال الاجابات من قبل .. وسيتم مراجعة الاجابات والمتابعه من خلال البريد الالكترونى");
+            return \redirect()->route("course/mycourses");
+        }
+        if ($booking->quiz !== null and $booking->marked == 1){
+            flash()->success("تم مراجعة الاختبار اذا كان لديك اى تعليقات اخرى تواصل عن طريق البريد الالكترونى ");
             return \redirect()->route("course/mycourses");
         }
         return view("quizcourse" ,compact(["product"]));
@@ -374,11 +379,9 @@ class CoursesController extends Controller
         }
 
         $booking->quiz = $quiz;
+        $booking->answered_at = Carbon::now()->from("Y-m-d");
         $booking->save();
-
-        //        attempted Mahmoud Kamal
         flash()->success("تم الارسال بنجاح .. وسيتم مراجعة الاجابات والمتابعه من خلال البريد الالكترونى");
-
         return \redirect()->route("course/mycourses");
     }
 
@@ -391,7 +394,13 @@ class CoursesController extends Controller
             flash()->error("يجب التسجيل فى الدوره  لتقيم الدوره");
             return \redirect()->route("course/mycourses");
         }
-        //        rate Mahmoud Kamal
+        $re = $this->nationalElearningCenterService->rated($student , $course , $data);
+        $ee = str_contains($re , "The Requested URL Was Rejected. Please Consult With Your Administrator");
+        if ($ee){
+            flash()->error("There Is Something Wrong In Api , Please Concat Technical Support");
+
+            return \redirect()->route("course/mycourses");
+        }
         flash()->success("تم الارسال بنجاح .. شكرا لتقيم الدوره");
 
         return \redirect()->route("course/mycourses");

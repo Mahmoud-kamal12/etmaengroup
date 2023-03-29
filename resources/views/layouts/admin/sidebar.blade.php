@@ -80,11 +80,21 @@
                     </ul>
                 </li>
 
+                <li><a class="sidebar-header" href=""><i data-feather="user-plus"></i><span>الاختبارات</span><i class="fa fa-angle-right pull-right"></i></a>
+                    <ul class="sidebar-submenu">
+                        <li><a href="{{url(route('admin/bookings/quiz_index_not'))}}"><i class="fa fa-circle"></i>الاختبارات لم يتم تصحيحها</a></li>
+
+                        <li><a href="{{url(route('admin/bookings/quiz_index'))}}"><i class="fa fa-circle"></i>الاختبارات  تم تصحيحها</a></li>
+
+                    </ul>
+                </li>
+
                 <li><a class="sidebar-header" href=""><i data-feather="user-plus"></i><span>الاستبيان والملف التعريفي</span><i class="fa fa-angle-right pull-right"></i></a>
                     <ul class="sidebar-submenu">
                         <li><a href="{{url(route('admin/questionnaires/index'))}}"><i class="fa fa-circle"></i>الاستبيان والملف التعريفي</a></li>
                     </ul>
                 </li>
+
 
                 <li><a class="sidebar-header" href=""><i data-feather="user-plus"></i><span>الملفات</span><i class="fa fa-angle-right pull-right"></i></a>
                     <ul class="sidebar-submenu">
