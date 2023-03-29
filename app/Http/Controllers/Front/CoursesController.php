@@ -379,7 +379,7 @@ class CoursesController extends Controller
         }
 
         $booking->quiz = $quiz;
-        $booking->answered_at = Carbon::now()->from("Y-m-d");
+        $booking->answered_at = Carbon::now();
         $booking->save();
         flash()->success("تم الارسال بنجاح .. وسيتم مراجعة الاجابات والمتابعه من خلال البريد الالكترونى");
         return \redirect()->route("course/mycourses");
@@ -394,6 +394,7 @@ class CoursesController extends Controller
             flash()->error("يجب التسجيل فى الدوره  لتقيم الدوره");
             return \redirect()->route("course/mycourses");
         }
+
         $re = $this->nationalElearningCenterService->rated($student , $course , $data);
         $ee = str_contains($re , "The Requested URL Was Rejected. Please Consult With Your Administrator");
         if ($ee){
@@ -401,6 +402,7 @@ class CoursesController extends Controller
 
             return \redirect()->route("course/mycourses");
         }
+
         flash()->success("تم الارسال بنجاح .. شكرا لتقيم الدوره");
 
         return \redirect()->route("course/mycourses");

@@ -322,7 +322,7 @@ class NationalElearningCenterService
             ],
             "result" => [
                 "completion" => true,
-                "success" => true,
+                "success" => $booking->success_status == 1,
                 "score" => [
                     "scaled" => round( $booking->max / $booking->raw , 2), // النسبه
                     "raw"    => $booking->raw, // المجموع

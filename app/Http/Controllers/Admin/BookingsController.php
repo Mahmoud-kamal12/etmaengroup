@@ -75,23 +75,21 @@ class BookingsController extends Controller
         $booking->raw = $request->raw;
         $booking->success_status = $request->success_status;
         $booking->marked = 1;
-        $booking->marked_at = Carbon::now()->from("Y-m-d");
+        $booking->marked_at = Carbon::now();
         $booking->save();
+        $student = User::where("id",$booking->user_id)->first();
+        $product = Product::where("id",$booking->course_id)->first();
+
+        $re = $this->nationalElearningCenterService->attempted($booking,$student,$product);
+        $ee = str_contains($re , "The Requested URL Was Rejected. Please Consult With Your Administrator attempted");
+        if ($ee){
+            flash()->error("There Is Something Wrong In Api , Please Concat Technical Support");
+
+            return \redirect()->route("course/mycourses");
+        }
+
         if ($booking->success_status){
-            $student = User::where("id",$booking->user_id)->first();
-            $product = Product::where("id",$booking->course_id)->first();
-
-            $re = $this->nationalElearningCenterService->attempted($booking,$student,$product);
-
-            $ee = str_contains($re , "The Requested URL Was Rejected. Please Consult With Your Administrator attempted");
-            if ($ee){
-                flash()->error("There Is Something Wrong In Api , Please Concat Technical Support");
-
-                return \redirect()->route("course/mycourses");
-            }
-
             $re = $this->nationalElearningCenterService->earned($booking,$student,$product);
-
             $ee = str_contains($re , "The Requested URL Was Rejected. Please Consult With Your Administrator earned");
             if ($ee){
                 flash()->error("There Is Something Wrong In Api , Please Concat Technical Support");
