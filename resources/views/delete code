@@ -1,0 +1,60 @@
+<!--
+        <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-md-4">
+            <div class="col mb-4">
+                <a href="/languages/send-data">
+                    <div class="card">
+                        <img src="{{asset('front/img/courses/entry.jpeg')}}"
+                            class="card-img-top" alt="English_beginners">
+                        <div class="card-body">
+                            <h5 class="card-title">برنامج الانجليزيه للمبتدئين</h5>
+                            <div class="courseDescription">
+                                <div class="hours">شهرين</div>
+                                <div class="price">1300 ر.س </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col mb-4">
+                <a href="/languages/send-data">
+                    <div class="card">
+                        <img src="{{asset('front/img/courses/health.jpeg')}}" class="card-img-top"
+                            alt="English_speak">
+                        <div class="card-body">
+                            <h5 class="card-title">برنامج مهارات التحدث بالانجليزيه</h5>
+                            <div class="courseDescription">
+                                <div class="hours">3 شهور</div>
+                                <div class="price">1425 ر.س </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col mb-4">
+                <div class="card">
+                    <img src="{{asset('front/img/courses/hrms.jpeg')}}" class="card-img-top"
+                        alt="English_beginners">
+                    <div class="card-body">
+                        <h5 class="card-title">برامج اللغة الاسبانية للمبتدئين</h5>
+                        <div class="courseDescription">
+                            <div class="hours">شهرين</div>
+                            <div class="price">1300 ر.س </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col mb-4">
+                <div class="card">
+                    <img src="{{asset('front/img/courses/hrms.jpeg')}}" class="card-img-top"
+                        alt="English_speak">
+                    <div class="card-body">
+                        <h5 class="card-title">برامج اللغة الالمانية للمبتدئين</h5>
+                        <div class="courseDescription">
+                            <div class="hours">3 شهور</div>
+                            <div class="price">1425 ر.س </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+ -->

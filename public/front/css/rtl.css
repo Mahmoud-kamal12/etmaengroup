@@ -1,0 +1,170 @@
+.social-icons {
+    text-align: left;
+}
+
+.address-bar {
+    margin-right: 110px;
+    margin-left: 0;
+}
+
+.ms-auto {
+    margin-right: auto !important;
+    margin-left: unset !important;
+}
+
+.header-search {
+    left: -35px;
+    right: auto;
+}
+
+.offset-lg-2 {
+    margin-right: 16.6666666667%;
+    margin-left: 0;
+}
+
+.blog-info {
+    padding-right: 135px;
+    padding-left: 0;
+}
+
+.date-box {
+    right: 20px;
+    left: auto;
+}
+
+.post-meta ul li {
+    padding-left: 5px;
+    padding-right: 0;
+}
+
+#accordion .panel {
+    margin: 0 50px 12px 0;
+}
+
+#accordion:before {
+    right: 18px;
+    left: auto;
+}
+
+#accordion .panel-heading:before {
+    right: -40px;
+    left: auto;
+}
+
+#accordion .panel-title a {
+    padding: 15px 30px 15px 55px;
+}
+
+#accordion .panel-title a.collapsed:before,
+#accordion .panel-title a:before {
+    left: 25px;
+    right: auto;
+}
+
+#accordion .panel:before {
+    right: -2px;
+    left: auto;
+}
+
+.scrolltop {
+    left: 30px;
+}
+
+.video-text-area {
+    max-width: 1285px;
+}
+
+.search-form .btn-default {
+    left: 0;
+    right: auto;
+}
+
+.side-widget h3::before {
+    right: 0;
+    left: auto;
+}
+
+.single-post {
+    padding: 0 90px 0 0;
+}
+
+.single-post img {
+    right: 0;
+    left: auto;
+}
+
+.sharing-link ul li {
+    margin: 0 0 0 5px;
+}
+
+.comments-title::before {
+    right: 0;
+    left: auto;
+}
+
+.single-comment {
+    padding: 0 100px 0 0;
+}
+
+.single-comment img {
+    right: 0;
+    left: auto;
+}
+
+.single-comment .reply {
+    left: 0;
+    right: auto;
+}
+
+.mrl-50 {
+    margin-right: 50px;
+    margin-left: 0;
+}
+
+.header-search-form form button {
+    left: 0;
+    right: auto;
+}
+
+.header-search-form form input {
+    padding: 0 0 0 30px;
+}
+
+/* RTL responsive css*/
+@media only screen and (max-width: 767px) {
+    .header-search {
+        right: 0;
+        left: 0;
+    }
+
+    .offset-lg-2 {
+        margin-right: 0;
+    }
+
+    .blog-info {
+        padding-right: 20px;
+    }
+
+    .mrl-50 {
+        margin-right: 0;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    .offset-lg-2 {
+        margin-right: 0;
+    }
+
+    .blog-info {
+        padding-right: 20px;
+    }
+
+    .menu-shrink .navbar-brand.logo-2 {
+        right: 0;
+        left: auto;
+    }
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {}
+
+@media only screen and (min-width: 1400px) {}
