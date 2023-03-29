@@ -102,7 +102,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>رقم الهويه *</label><!--pattern="[0-9a-zA-z]{5,}"-->
-                                                    <input type="text" id="id" name="id_number" class="form-control" required autocomplete="off" placeholder="برجاء كتابة رقم الهوية السعودى">
+                                                    <input type="text" id="id" name="id_number" class="form-control" pattern="(^[124]{1}[0-9]{9})$" required autocomplete="off" placeholder="برجاء كتابة رقم الهوية السعودى">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
