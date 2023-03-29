@@ -16,17 +16,20 @@
                <div class="d-flex justify-content-between align-items-center">
                 <div>
                 <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse-{{$course->id}}" aria-expanded="true" aria-controls="collapse-{{$course->id}}">
-                  {{$course->title}}  ( {{$booking->uuid_completed  == null ? "غير مكتمل"  :  "مكتمل"}} )
+                  {{$course->title}} 
                 </button>
-
+                    <p class="d-inline text-warning"> ( {{$booking->uuid_completed  == null ? "غير مكتمل"  :  "مكتمل"}} ) </p>
+                    </div>
                   @if($booking->uuid_completed  == null)
-                      <a href="#">يجب اكمال الدوره لاداء الاختبار</a>
+                      <a class="text-info" href="#"> يجب اكمال الدوره لاداء الاختبار </a>
 
                   @else
-                      <a href="{{route('course/mycourses/quiz',$course->id)}}"> اداء الاختبار</a>
-                      <p style="display: inline;">درجة الاختبار  : {{$booking->raw}}</p>
+                  <div>
+                      <a class="text-dark text-blink" href="{{route('course/mycourses/quiz',$course->id)}}"> اداء الاختبار </a>
+                      <p style="display: inline;">درجة الاختبار  : {{$booking->raw}} </p>
+                      </div>
                   @endif
-                  </div>
+                  
                   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-original-title="test" data-bs-target="#myModalrate-{{$course->id}}">
                       تقيم الدوره
                   </button>
