@@ -13,8 +13,8 @@
           <div class="card">
             <div class="card-header" id="heading-{{$course->id}}">
               @include('flash::message')
-              <h2 class="m-0">
-
+               <div class="d-flex justify-content-between align-items-center">
+                <div>
                 <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse-{{$course->id}}" aria-expanded="true" aria-controls="collapse-{{$course->id}}">
                   {{$course->title}}  ( {{$booking->uuid_completed  == null ? "غير مكتمل"  :  "مكتمل"}} )
                 </button>
@@ -24,48 +24,15 @@
 
                   @else
                       <a href="{{route('course/mycourses/quiz',$course->id)}}"> اداء الاختبار</a>
-                      <p>درجة الاختبار  : {{$booking->raw}}</p>
+                      <p style="display: inline;">درجة الاختبار  : {{$booking->raw}}</p>
                   @endif
-
+                  </div>
                   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-original-title="test" data-bs-target="#myModalrate-{{$course->id}}">
                       تقيم الدوره
                   </button>
-
-                  <div class="modal fade" id="myModalrate-{{$course->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
-                      <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-                              <div class="modal-header">
-                                  <h5 class="modal-title f-w-600" id="exampleModalLabel">تقيم الدوره</h5>
-                                  <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                              </div>
-                              <div class="modal-body">
-                                  <form role="form" action="{{route("course/student/courses/rate" , $course->id )}}" class="" >
-
-                                      <div class="form-group">
-                                          <label class="col-form-label pt-0"><span>*</span> التقيم من 0 ل 10</label>
-                                          <input class="form-control" name="rate" type="number" required="" max="10" maxlength="2" min="0" minlength="1">
-
-                                      </div>
-
-                                      <div class="form-group">
-                                          <label class="col-form-label pt-0"><span>*</span> تقيم الدوره</label>
-                                          <textarea class="form-control" name="review" type="text" required=""></textarea>
-
-                                      </div>
-
-                                      <div class="form-group text-center align-content-center">
-                                          <input class="btn btn-primary" type="submit" value="ارسال">
-                                      </div>
-                                  </form>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-
-
-              </h2>
+               </div>
             </div>
+
             <div id="collapse-{{$course->id}}" class="collapse show" aria-labelledby="heading-{{$course->id}}" data-parent="#accordionExample">
               <div class="card-body">
                 <div class="d-flex justify-content-center">
@@ -80,6 +47,32 @@
               </div>
             </div>
           </div>
+              <div class="modal fade" id="myModalrate-{{$course->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">تقيم الدوره</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form role="form" action="{{route("course/student/courses/rate" , $course->id )}}">
+              <div class="form-group">
+                <label class="col-form-label pt-0"><span>*</span> التقيم من 0 ل 10</label>
+                <input class="form-control" name="rate" type="number" required="" max="10" maxlength="2" min="0" minlength="1">
+              </div>
+
+              <div class="form-group">
+                <label class="col-form-label pt-0"><span>*</span> تقيم الدوره</label>
+                <textarea class="form-control" name="review" type="text" required=""></textarea>
+              </div>
+              <div class="form-group text-center align-content-center">
+                <input class="btn btn-primary" type="submit" value="ارسال">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
         @endforeach
       @else
       <div style="text-align: center;">لا يوجد كورسات .. او لم يتم التفعيل بعد</div>
