@@ -70,7 +70,7 @@ Multikart - Premium Admin Template
                             <div class="form-group">
                                 <label for="validationCustom02" class="col-form-label pt-0"><span>*</span> الشرح</label>
                                 <textarea class="form-control" id="validationCustom02" name="description">
-                                        {{old('description')}}
+                                {{old('description')}}
                                 </textarea>
                                 @error('description')
                                 <span class="text-danger">{{$message}}</span>
@@ -101,23 +101,23 @@ Multikart - Premium Admin Template
                                 <select class="form-control" name="user_id" id="validationCustom033" autocomplete="off">
                                     <option value=""></option>
                                     @foreach($users as $user)
-                                        <?php
-                                            $selected = '';
-                                            if($user->id == old('user_id')){
-                                                $selected = 'selected';
-                                            }
-                                        ?>
-                                        <option value="{{$user->id}}" <?php echo $selected ?>>{{$user->name}}</option>
+                                    <?php
+                                    $selected = '';
+                                    if ($user->id == old('user_id')) {
+                                        $selected = 'selected';
+                                    }
+                                    ?>
+                                    <option value="{{$user->id}}" <?php echo $selected ?>>{{$user->name}}</option>
                                     @endforeach
                                 </select>
                                 @error('user_id')
-                                    <span class="text-danger">{{$message}}</span>
+                                <span class="text-danger">{{$message}}</span>
                                 @enderror
                             </div>
                             <div class="form-group">
                                 <label for="validationCustom06" class="col-form-label pt-0"><span>*</span> نبذه عن المدرب</label>
                                 <textarea class="form-control" id="validationCustom06" name="user_desc">
-                                    {{old('user_desc')}}
+                                {{old('user_desc')}}
                                 </textarea>
                                 @error('user_desc')
                                 <span class="text-danger">{{$message}}</span>
@@ -134,14 +134,37 @@ Multikart - Premium Admin Template
                             <div class="form-group">
                                 <label for="validationCustom02" class="col-form-label"><span>*</span> الاساله </label>
                                 <button class="btn btn-success mb-2" id="AddQuiz">+</button>
-
                                 <div id="quiz">
-                                    <input name="quiz[]" type="text" class="form-control">
-
+                                    <div id="question">
+                                    <div class="form-group">
+                                        <label class="col-form-label">السؤال رقم 1</label>
+                                        <input type="text" name="quiz[0][question]" class="form-control">
+                                    </div>
+                                    <label for="AddAnswer" class="col-form-label d-inline"><span>*</span> الاجابات </label>
+                                    <a class="btn btn-success mb-2" id="AddAnswer" onclick="AddAnswer(event)">+</a>
+                                    <div id="answers-0">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" for="order0">ترتيب الاجابه</label>
+                                                    <input type="text" name="quiz[0][answer][0][order]" id="order0" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <label class="col-form-label" for="text0">الاجابه</label>
+                                                    <input type="text" name="quiz[0][answer][0][text]" id="text0" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                                    <label class="col-form-label" for="text0">ترتيب الاجابه الصحيحه</label>
+                                                    <input type="text" name="quiz[0][right_answer_order]" id="text0" class="form-control">
+                                                </div>
+                                    <hr>
                                 </div>
-
-
-
+                                </div>
                             </div>
 
                             <div class="form-group mt-4">
@@ -158,11 +181,62 @@ Multikart - Premium Admin Template
 @endsection
 
 @section('script')
-    <script>
-        $(document).on("click","#AddQuiz",function (e) {
-            e.preventDefault()
-            var html = ` <br>   <input name="quiz[]" type="text" class="form-control" > `
-            $("#quiz").append(html)
-        })
-    </script>
+<script>
+    $(document).on("click", "#AddQuiz", function(e) {
+        e.preventDefault();
+        const numberIndex_question = $(e.target.nextElementSibling).children().length;
+        $("#quiz").append(`
+                                    <div id="question">
+                                    <div class="form-group">
+                                    <label class="col-form-label">السؤال رقم ${numberIndex_question + 1}</label>
+                                    <input type="text" name="quiz[${numberIndex_question}][question]" class="form-control">
+                                    </div>
+                                    <label for="AddAnswer" class="col-form-label d-inline"><span>*</span> الاجابات </label>
+                                    <a class="btn btn-success mb-2" id="AddAnswer" onclick="AddAnswer(event)">+</a>
+                                    <div id="answers-${numberIndex_question}">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="order0">ترتيب الاجابه</label>
+                                                <input type="text" name="quiz[${numberIndex_question}][answer][0][order]" id="order0" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="text0">الاجابه</label>
+                                                <input type="text" name="quiz[${numberIndex_question}][answer][0][text]" id="text0" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div class="form-group">
+                                                    <label class="col-form-label" for="text0">ترتيب الاجابه الصحيحه</label>
+                                                    <input type="text" name="quiz[${numberIndex_question}][right_answer_order]" id="text0" class="form-control">
+                                                </div>
+                                    <hr>
+                                    </div>
+                        `)
+    })
+
+    function AddAnswer(event) {
+        const numberIndex_answer = $(event.target.nextElementSibling).children().length;
+        const numberIndex_question = $(event.target.nextElementSibling).attr('id').split('-')[1];
+        $(event.target.nextElementSibling).append(`
+                                            <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="order${numberIndex_answer}">ترتيب الاجابه</label>
+                                                <input type="text" name="quiz[${numberIndex_question}][answer][${numberIndex_answer}][order]" id="order${numberIndex_answer}" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <label class="col-form-label" for="text${numberIndex_answer}">الاجابه</label>
+                                                <input type="text" name="quiz[${numberIndex_question}][answer][${numberIndex_answer}][text]" id="text${numberIndex_answer}" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                `)
+    }
+</script>
 @endsection
