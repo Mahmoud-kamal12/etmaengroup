@@ -415,6 +415,8 @@ class CoursesController extends Controller
             $pdf = Pdf::loadView('admin.certification',compact(['product','student','instructor']));
             $fileName = $student->name.$product->title.time().'.pdf';
             $pdf->save($fileName,'certification');
+            $booking->certification = "certification/".$fileName;
+            $booking->save();
         }
 
         if ($ee){
