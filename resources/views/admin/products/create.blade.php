@@ -136,7 +136,15 @@ Multikart - Premium Admin Template
                                 <button class="btn btn-success mb-2" id="AddQuiz">+</button>
 
                                 <div id="quiz">
-                                    <input name="quiz[]" type="text" class="form-control">
+                                    <input name="quiz[0]" type="text" class="form-control">
+                                    <br>
+                                    <button class="btn btn-success mb-2" id="AddAnswer">+</button>
+                                    <div class="row">
+                                            <div class="col">
+                                                <input name="answer[0][order][]" type="text" class="form-control">
+                                                <input name="answer[0][]" type="text" class="form-control">
+                                            </div>
+                                    </div>
 
                                 </div>
 

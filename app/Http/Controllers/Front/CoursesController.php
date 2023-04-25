@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Http\Controllers\Admin\BookingsController;
 use App\Http\Controllers\Controller;
 use App\Http\Repository\Eloquent\BookingRepository;
 use App\Models\Product;
@@ -26,11 +27,13 @@ class CoursesController extends Controller
 {
     protected $nationalElearningCenterService;
     protected $bookingRepository;
+    protected $bookingsController;
 
-    public function __construct(NationalElearningCenterService $nationalElearningCenterService , BookingRepository $bookingRepository)
+    public function __construct(NationalElearningCenterService $nationalElearningCenterService , BookingRepository $bookingRepository , BookingsController  $bookingsController)
     {
         $this->nationalElearningCenterService = $nationalElearningCenterService;
         $this->bookingRepository = $bookingRepository;
+        $this->bookingsController = $bookingsController;
     }
 
     public function courses($id)
@@ -378,10 +381,20 @@ class CoursesController extends Controller
             return \redirect()->route("course/mycourses");
         }
 
+//        Mahmoud Kamal
+
+//        هنا هنصحح الكويز
+//        زهنبعت للكنترولر
+
+//        $ee = str_contains($re , "Error");
+
+//        attempted
+
+//
         $booking->quiz = $quiz;
         $booking->answered_at = Carbon::now();
         $booking->save();
-        flash()->success("تم الارسال بنجاح .. وسيتم مراجعة الاجابات والمتابعه من خلال البريد الالكترونى");
+        flash()->success("تم الارسال بنجاح ");
         return \redirect()->route("course/mycourses");
     }
 

@@ -41,7 +41,14 @@ class NationalElearningCenterService
                 ],
                 "platform" => "ETMAEN_001",
                 "language" => "ar-SA",
-                "extensions" =>[],
+                "extensions" =>[
+                    "https://nelc.gov.sa/extensions/platform" => [
+                        "name" => [
+                            "ar-SA" => "معهد اطمئن للتدريب",
+                            "en-US" => "Etmaen training institute"
+                        ]
+                    ],
+                ],
             ],
             "timestamp" => "$booking->created_at"
         ];
@@ -97,7 +104,14 @@ class NationalElearningCenterService
                 ],
                 "platform" => "ETMAEN_001",
                 "language" => "ar-SA",
-                "extensions" =>[],
+                "extensions" =>[
+                    "https://nelc.gov.sa/extensions/platform" => [
+                        "name" => [
+                            "ar-SA" => "معهد اطمئن للتدريب",
+                            "en-US" => "Etmaen training institute"
+                        ]
+                    ],
+                ],
             ],
             "timestamp" => "$booking->created_at"
         ];
@@ -171,7 +185,14 @@ class NationalElearningCenterService
                 ],
                 "platform" => "ETMAEN_001",
                 "language" => "ar-SA",
-                "extensions" =>[],
+                "extensions" =>[
+                    "https://nelc.gov.sa/extensions/platform" => [
+                        "name" => [
+                            "ar-SA" => "معهد اطمئن للتدريب",
+                            "en-US" => "Etmaen training institute"
+                        ]
+                    ],
+                ],
                 "contextActivities" =>[
                     "parent" => [
                         [
@@ -245,7 +266,14 @@ class NationalElearningCenterService
                 ],
                 "platform" => "ETMAEN_001",
                 "language" => "ar-SA",
-                "extensions" =>[],
+                "extensions" =>[
+                    "https://nelc.gov.sa/extensions/platform" => [
+                        "name" => [
+                            "ar-SA" => "معهد اطمئن للتدريب",
+                            "en-US" => "Etmaen training institute"
+                        ]
+                    ],
+                ],
             ],
             "timestamp" => "$booking->created_at"
         ];
@@ -305,7 +333,14 @@ class NationalElearningCenterService
                 ],
                 "platform" => "ETMAEN_001",
                 "language" => "ar-SA",
-                "extensions" =>[],
+                "extensions" =>[
+                    "https://nelc.gov.sa/extensions/platform" => [
+                        "name" => [
+                            "ar-SA" => "معهد اطمئن للتدريب",
+                            "en-US" => "Etmaen training institute"
+                        ]
+                    ],
+                ],
                 "contextActivities" =>[
                     "parent" => [
                         [
@@ -386,7 +421,14 @@ class NationalElearningCenterService
                 ],
                 "platform" => "ETMAEN_001",
                 "language" => "ar-SA",
-                "extensions" =>[],
+                "extensions" =>[
+                    "https://nelc.gov.sa/extensions/platform" => [
+                        "name" => [
+                            "ar-SA" => "معهد اطمئن للتدريب",
+                            "en-US" => "Etmaen training institute"
+                        ]
+                    ],
+                ],
             ],
             "result" => [
                 "score" => [
@@ -448,7 +490,14 @@ class NationalElearningCenterService
             "context" => [
                 "platform" => "ETMAEN_001",
                 "language" => "ar-SA",
-                "extensions" =>[],
+                "extensions" =>[
+                    "https://nelc.gov.sa/extensions/platform" => [
+                        "name" => [
+                            "ar-SA" => "معهد اطمئن للتدريب",
+                            "en-US" => "Etmaen training institute"
+                        ]
+                    ],
+                ],
                 "contextActivities" =>[
                     "parent" => [
                         [

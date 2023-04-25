@@ -83,8 +83,8 @@ class BookingsController extends Controller
         $re = $this->nationalElearningCenterService->attempted($booking,$student,$product);
         $ee = str_contains($re , "The Requested URL Was Rejected. Please Consult With Your Administrator attempted");
         if ($ee){
+            return "Error There Is Something Wrong In Api , Please Concat Technical Support";
             flash()->error("There Is Something Wrong In Api , Please Concat Technical Support");
-
             return \redirect()->route("course/mycourses");
         }
 
@@ -92,12 +92,13 @@ class BookingsController extends Controller
             $re = $this->nationalElearningCenterService->earned($booking,$student,$product);
             $ee = str_contains($re , "The Requested URL Was Rejected. Please Consult With Your Administrator earned");
             if ($ee){
+                return "Error There Is Something Wrong In Api , Please Concat Technical Support";
                 flash()->error("There Is Something Wrong In Api , Please Concat Technical Support");
-
                 return \redirect()->route("course/mycourses");
             }
         }
 
+        return "تم تقيم الاختبار بنجاح";
         flash()->success("تم تقيم الاختبار بنجاح");
         return redirect()->route("admin/bookings/index");
 
