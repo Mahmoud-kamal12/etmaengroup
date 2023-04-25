@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Admin\BookingsController;
 use App\Http\Controllers\Controller;
 use App\Http\Repository\Eloquent\BookingRepository;
+use App\Models\Admin;
 use App\Models\Product;
 use App\Models\Question;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Redirect;
@@ -352,6 +354,7 @@ class CoursesController extends Controller
 
 
     public function student_courses_quiz($id){
+
         $product = Product::where("is_activate" , 1)->where("id",$id)->first();
         $student = auth()->user();
         $booking = Booking::where("status" , 1)->where("user_id" , $student->id)->where("course_id" , $id)->first();
@@ -367,6 +370,7 @@ class CoursesController extends Controller
             flash()->success("تم مراجعة الاختبار اذا كان لديك اى تعليقات اخرى تواصل عن طريق البريد الالكترونى ");
             return \redirect()->route("course/mycourses");
         }
+//        dd($product->quiz );
         return view("quizcourse" ,compact(["product"]));
     }
 
@@ -382,21 +386,86 @@ class CoursesController extends Controller
         }
 
 //        Mahmoud Kamal
-
-//        هنا هنصحح الكويز
-//        زهنبعت للكنترولر
-
-//        $ee = str_contains($re , "Error");
-
-//        attempted
-
-//
+        $row = 0;
+        $max = 0;
+        foreach ($quiz as $oneQuiz){
+            $max++;
+            foreach ($product->quiz as $proQuiz){
+                if($proQuiz['question'] === $oneQuiz['q']){
+                    if($proQuiz['right_answer_order'] === $oneQuiz['a']){
+                        $row++;
+                    }
+                }
+            }
+        }
         $booking->quiz = $quiz;
         $booking->answered_at = Carbon::now();
         $booking->save();
+
+        $success_status = ($row >= ($max / 2 ));
+        $result = ["max" => $max , "raw" => $row , "success_status" => $success_status];
+        $return = $this->quiz_rate($result , $booking->id);
+        $ee = str_contains($return , "Error");
+
+        if ($success_status){
+            $student = User::where("id",$booking->user_id)->first();
+            $product = Product::where("id",$booking->course_id)->first();
+            $instructor = Admin::where("id",$product->user_id)->first();
+
+            $pdf = Pdf::loadView('admin.certification',compact(['product','student','instructor']));
+            $fileName = $student->name.$product->title.time().'.pdf';
+            $pdf->save($fileName,'certification');
+        }
+
+        if ($ee){
+            flash()->error("There Is Something Wrong In Api , Please Concat Technical Support");
+            return \redirect()->route("course/mycourses");
+        }
+//
+        if ($success_status){
+            $student = User::where("id",$booking->user_id)->first();
+            $product = Product::where("id",$booking->course_id)->first();
+            $instructor = Admin::where("id",$product->user_id)->first();
+
+            $pdf = Pdf::loadView('admin.certification',compact(['product','student','instructor']));
+            $content = $pdf->download()->getOriginalContent();;
+            Storage::put('public/'.$student->name.$product->title.time().'pdf',$content);
+        }
         flash()->success("تم الارسال بنجاح ");
         return \redirect()->route("course/mycourses");
     }
+
+    public function quiz_rate($request , $id){
+        $booking = Booking::where("id" , $id)->first();
+        $booking->max = $request['max'];
+        $booking->raw = $request['raw'];
+        $booking->success_status = $request['success_status'];
+        $booking->marked = 1;
+        $booking->marked_at = Carbon::now();
+        $booking->save();
+        $student = User::where("id",$booking->user_id)->first();
+        $product = Product::where("id",$booking->course_id)->first();
+        $instructor = Admin::where("id",$product->user_id)->first();
+
+
+        $re = $this->nationalElearningCenterService->attempted($booking,$student,$product);
+        $ee = str_contains($re , "The Requested URL Was Rejected. Please Consult With Your Administrator");
+        if ($ee){
+            return "Error There Is Something Wrong In Api attempted, Please Concat Technical Support attempted";
+        }
+
+        if ($booking->success_status){
+            $re = $this->nationalElearningCenterService->earned($booking,$student,$product);
+            $ee = str_contains($re , "The Requested URL Was Rejected. Please Consult With Your Administrator");
+            if ($ee){
+                return "Error There Is Something Wrong In Api earned, Please Concat Technical Support earned";
+            }
+        }
+
+        return "success";
+
+    }
+
 
     public function student_courses_rate(Request $request , $id){
         $course = Product::where("id" , $id)->first();

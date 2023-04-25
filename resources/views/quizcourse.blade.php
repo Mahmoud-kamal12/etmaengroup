@@ -20,16 +20,31 @@
                         <div class="col-lg-12">
                             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 
+{{--                                0 => array:3 [▼--}}
+{{--                                "answer" => array:4 [▶]--}}
+{{--                                "question" => "السؤال الاول"--}}
+{{--                                "right_answer_order" => "3"--}}
+{{--                                ]--}}
+
                                 @foreach($product->quiz as $i => $quiz)
+{{--                                    @dd($quiz['question'])--}}
                                     <div class="panel panel-default">
                                         <div class="panel-heading" role="tab" id="headingOne">
-                                            <h4 class="panel-title"><a role="button" data-bs-toggle="collapse" data-bs-parent="#accordion" href="#collapseOne{{$quiz}}" aria-expanded="false" aria-controls="collapseOne{{$quiz}}" class="collapsed"> {{$quiz}} </a></h4>
-                                            <input type="hidden" name="quiz[{{$i}}][q]" value="{{$quiz}}">
+                                            <h4 class="panel-title"><a role="button" data-bs-toggle="collapse" data-bs-parent="#accordion" href="#collapseOne{{$i}}" aria-expanded="false" aria-controls="collapseOne{{$i}}" class="collapsed"> {{$quiz['question']}} </a></h4>
+                                            <input type="hidden" name="quiz[{{$i}}][q]" value="{{$quiz['question']}}">
                                         </div>
-                                        <div id="collapseOne{{$quiz}}" class="panel-collapse collapse show-div" role="tabpanel"
+
+                                        <div id="collapseOne{{$i}}" class="panel-collapse collapse show-div" role="tabpanel"
                                              aria-labelledby="headingOne">
                                             <div class="panel-body">
-                                                <textarea name="quiz[{{$i}}][a]" >Enter Your Answer Here!</textarea>
+                                                    @foreach($quiz['answer'] as $ii => $ans)
+                                                        <span class="" style="margin-left: 40px">
+                                                        <input  type="radio" id="{{$i . $ans['order']}} . {{$ans['text']}}" name="quiz[{{$i}}][a]" value="{{$ans['order']}}" >
+                                                        <label for="{{$i . $ans['order']}} . {{$ans['text']}}">{{$ans['text']}}</label>
+                                                        </span>
+
+
+                                                @endforeach
                                             </div>
                                         </div>
                                     </div>

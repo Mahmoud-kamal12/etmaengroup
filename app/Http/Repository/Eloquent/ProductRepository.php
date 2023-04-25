@@ -22,9 +22,7 @@ class ProductRepository extends AbstractRepository
     public function ProductStore($request)
     {
         try{
-            // validation
-            //create admin
-//            dd($request->all());
+
             $quiz = array_filter($request->quiz);
             $product = new $this->model();
             $product->title = $request->title;
