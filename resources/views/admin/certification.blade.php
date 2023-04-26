@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>شهادة اكمال الدوره</title>
     <style>
+        *{
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+        }
         .body {
             display: grid;
             grid-template: auto auto auto / auto auto;
@@ -69,19 +72,18 @@
     <div class="logo">
         <img src="{{public_path("admin/logo.png")}}" alt="logo Etmaen Can't Load">
     </div>
-    <div class="info" style="DIRECTION: ltr;">
-        <span> loipsum dolor sit amet consectetur adipisicing elit.</span>
-        <span> loipsum dolor sit amet consectetur adipisicing elit.</span>
+    <div class="info" style="DIRECTION: rtl;">
+        <span></span>
     </div>
     <div class="content">
-        <span>CERTIFICATE OF COMPLETION</span>
+        <span>شهادة اكمال الدوره</span>
         <h1>{{$product->title}}</h1>
-        <p>Instructors <span>{{$instructor->name}}</span></p>
+        <p>المحاضر : <span>{{$instructor->name}}</span></p>
     </div>
     <div class="footer">
         <h1>{{$student->name}}</h1>
-        <p>Date <span>{{\Carbon\Carbon::now()->format("MMM Do YY")}}</span></p>
-        <p>Length <span>{{$product->duration}}</span></p>
+        <p>التاريخ : <span>{{\Carbon\Carbon::parse($booking->marked_at)->translatedFormat('l j F Y ')}}</span></p>
+        <p>المدده : <span>{{$product->duration}}</span></p>
     </div>
 </div>
 </body>

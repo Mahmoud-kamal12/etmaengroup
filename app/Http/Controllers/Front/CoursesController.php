@@ -23,7 +23,10 @@ use App\Models\Booking;
 use App\Models\BookingLessons;
 use App\Models\Lessons;
 use App\Services\NationalElearningCenterService;
+use Mpdf\Mpdf;
 use Owenoj\LaravelGetId3\GetId3;
+use Illuminate\Support\Facades\File;
+
 
 class CoursesController extends Controller
 {
@@ -412,9 +415,27 @@ class CoursesController extends Controller
             $product = Product::where("id",$booking->course_id)->first();
             $instructor = Admin::where("id",$product->user_id)->first();
 
-            $pdf = Pdf::loadView('admin.certification',compact(['product','student','instructor']));
+            $mpdf = new Mpdf([
+                'mode' => 'utf-8',
+                'format' => 'A4-L',
+                'orientation' => 'L'
+            ]);
+
+            $mpdf->setAutoTopMargin = 'stretch';
+            $mpdf->autoScriptToLang = true;
+            $mpdf->autoLangToFont = true;
+
+            setLocale(LC_TIME, 'ar');
+            Carbon::setLocale('ar');
+            $view = view('admin.certification',compact(['product','student','instructor' , 'booking']));
+            $mpdf->WriteHTML($view->render());
+            $location = public_path('/certification');
             $fileName = $student->name.$product->title.time().'.pdf';
-            $pdf->save($fileName,'certification');
+            if (!File::exists($location)) {
+                File::makeDirectory($location, $mode = 0755, true, true);
+            }
+            $mpdf->Output($location . '/' . $fileName, 'F');
+
             $booking->certification = "certification/".$fileName;
             $booking->save();
         }
@@ -429,10 +450,26 @@ class CoursesController extends Controller
             $product = Product::where("id",$booking->course_id)->first();
             $instructor = Admin::where("id",$product->user_id)->first();
 
-            $pdf = Pdf::loadView('admin.certification',compact(['product','student','instructor']));
-            $content = $pdf->download()->getOriginalContent();;
-            Storage::put('public/'.$student->name.$product->title.time().'pdf',$content);
+            $mpdf = new Mpdf([
+                'mode' => 'utf-8',
+                'format' => 'A4-L',
+                'orientation' => 'L'
+            ]);
+
+            $mpdf->setAutoTopMargin = 'stretch';
+            $view = view('admin.certification',compact(['product','student','instructor']));
+            $mpdf->WriteHTML($view->render());
+            $location = public_path('/certification');
+            $fileName = $student->name.$product->title.time().'.pdf';
+            if (!File::exists($location)) {
+                File::makeDirectory($location, $mode = 0755, true, true);
+            }
+            $mpdf->Output($location . '/' . $fileName, 'F');
+
+            $booking->certification = "certification/".$fileName;
+            $booking->save();
         }
+
         flash()->success("تم الارسال بنجاح ");
         return \redirect()->route("course/mycourses");
     }
