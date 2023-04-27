@@ -125,7 +125,7 @@ Multikart - Premium Admin Template
                                     <div id="question">
                                         <div class="form-group">
                                             <label class="col-form-label">السؤال رقم {{$i + 1}}</label>
-                                            <input type="text" name="quiz[0][question]" value="{{$quiz['question']}}" class="form-control">
+                                            <input type="text" name="quiz[{{$i}}][question]" value="{{$quiz['question']}}" class="form-control">
                                         </div>
                                         <label for="AddAnswer" class="col-form-label d-inline"><span>*</span> الاجابات </label>
                                         <a class="btn btn-success mb-2" id="AddAnswer" onclick="AddAnswer(event)">+</a>
@@ -136,13 +136,13 @@ Multikart - Premium Admin Template
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="col-form-label" for="order0">ترتيب الاجابه</label>
-                                                        <input type="text" name="quiz[0][answer][0][order]" id="order0" value="{{$answer['order']}}" class="form-control">
+                                                        <input type="text" name="quiz[{{$i}}][answer][{{$A}}][order]" id="order0" value="{{$answer['order']}}" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-8">
                                                     <div class="form-group">
                                                         <label class="col-form-label" for="text0">الاجابه</label>
-                                                        <input type="text" name="quiz[0][answer][0][text]" value="{{$answer['text']}}" id="text0" class="form-control">
+                                                        <input type="text" name="quiz[{{$i}}][answer][{{$A}}][text]" value="{{$answer['text']}}" id="text0" class="form-control">
                                                     </div>
                                                 </div>
                                             </div>
@@ -151,7 +151,7 @@ Multikart - Premium Admin Template
                                         @endif
                                         <div class="form-group">
                                             <label class="col-form-label" for="text0">ترتيب الاجابه الصحيحه</label>
-                                            <input type="text" name="quiz[0][right_answer_order]" id="text0" value="{{$quiz['right_answer_order']}}" class="form-control">
+                                            <input type="text" name="quiz[{{$i}}][right_answer_order]" id="text0" value="{{$quiz['right_answer_order']}}" class="form-control">
                                         </div>
                                         <hr>
                                     </div>
