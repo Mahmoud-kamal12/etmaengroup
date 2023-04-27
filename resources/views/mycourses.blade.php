@@ -27,8 +27,13 @@
                   <div>
                       <a class="text-dark text-blink btn btn-primary" style="margin-left:10px;color:white !important;" href="{{route('course/mycourses/quiz',$course->id)}}"> اداء الاختبار </a>
                       <p style="display: inline;color: red">درجة الاختبار  : {{$booking->raw}} </p>
-                      </div>
+                  </div>
                   @endif
+
+                   @if($booking->certification)
+                       <a class="text-success" target="_blank" href="{{asset($booking->certification)}}"> تحميل الشهاده </a>
+                   @else
+                   @endif
 
                   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-original-title="test" data-bs-target="#myModalrate-{{$course->id}}">
                       تقيم الدوره
