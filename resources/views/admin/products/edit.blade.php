@@ -131,7 +131,7 @@ Multikart - Premium Admin Template
                                         <a class="btn btn-success mb-2" id="AddAnswer" onclick="AddAnswer(event)">+</a>
                                         @if($quiz['answer'])
                                         @foreach($quiz['answer'] as $A=>$answer)
-                                        <div id="answers-0">
+                                        <div id="answers-{{$i}}">
                                             <div class="row">
                                                 <div class="col-md-4">
                                                     <div class="form-group">
