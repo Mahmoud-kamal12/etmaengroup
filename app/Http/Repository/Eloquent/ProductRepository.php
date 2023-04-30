@@ -3,6 +3,7 @@
 namespace App\Http\Repository\Eloquent;
 
 use App\Models\Admin;
+use App\Models\Lessons;
 use App\Models\Product;
 use App\Models\User;
 use DB;
@@ -114,6 +115,8 @@ class ProductRepository extends AbstractRepository
     {
         try{
             $product = $this->model->findOrFail($id);
+            $lessons = Lessons::where("product_id" , $id)->get();
+            $lessons->delete();
             $product->delete();
             flash()->success("The Deleted Has Been Done");
             return back();
