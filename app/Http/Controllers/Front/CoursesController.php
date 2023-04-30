@@ -199,7 +199,7 @@ class CoursesController extends Controller
                             }
                         }
                     }else{
-                            return response()->json(['error data'=> $data_lesson_watched],500);
+                        return response()->json(['error data'=> $data_lesson_watched],500);
 
 //                        flash()->error("There Is Something Wrong In Lesson Data , Please Concat Technical Support");
 //                        return back();
@@ -223,11 +223,11 @@ class CoursesController extends Controller
         try{
             $oldLesson = Lessons::find($id);
             $lesson = Lessons::where('product_id','=',$oldLesson->product_id)
-                                ->where('id','>',$id)
-                                ->where('is_activate','=',1)
-                                ->orderBy('id','ASC')
-                                ->take(1)
-                                ->get();
+                ->where('id','>',$id)
+                ->where('is_activate','=',1)
+                ->orderBy('id','ASC')
+                ->take(1)
+                ->get();
             if(count($lesson) > 0){
                 return Redirect::route('lesson/details',$lesson[0]->id);
             }
@@ -244,11 +244,11 @@ class CoursesController extends Controller
         try{
             $oldLesson = Lessons::find($id);
             $lesson = Lessons::where('product_id','=',$oldLesson->product_id)
-                                ->where('id','<',$id)
-                                ->where('is_activate','=',1)
-                                ->orderBy('id','DESC')
-                                ->take(1)
-                                ->get();
+                ->where('id','<',$id)
+                ->where('is_activate','=',1)
+                ->orderBy('id','DESC')
+                ->take(1)
+                ->get();
             if(count($lesson) > 0){
                 return Redirect::route('lesson/details',$lesson[0]->id);
             }
@@ -267,11 +267,11 @@ class CoursesController extends Controller
         try{
             $oldLesson = Lessons::find($id);
             $lesson = Lessons::where('product_id','=',$oldLesson->product_id)
-                                ->where('id',$sign,$id)
-                                ->where('is_activate','=',1)
-                                ->orderBy('id',$type)
-                                ->take(1)
-                                ->get();
+                ->where('id',$sign,$id)
+                ->where('is_activate','=',1)
+                ->orderBy('id',$type)
+                ->take(1)
+                ->get();
 
             return response()->json(['success' => count($lesson)]);
         }catch(\Exception $ex){
@@ -410,35 +410,6 @@ class CoursesController extends Controller
         $return = $this->quiz_rate($result , $booking->id);
         $ee = str_contains($return , "Error");
 
-        if ($success_status){
-            $student = User::where("id",$booking->user_id)->first();
-            $product = Product::where("id",$booking->course_id)->first();
-            $instructor = Admin::where("id",$product->user_id)->first();
-
-            $mpdf = new Mpdf([
-                'mode' => 'utf-8',
-                'format' => 'A4-L',
-                'orientation' => 'L'
-            ]);
-
-            $mpdf->setAutoTopMargin = 'stretch';
-            $mpdf->autoScriptToLang = true;
-            $mpdf->autoLangToFont = true;
-
-            setLocale(LC_TIME, 'ar');
-            Carbon::setLocale('ar');
-            $view = view('admin.certification',compact(['product','student','instructor' , 'booking']));
-            $mpdf->WriteHTML($view->render());
-            $location = public_path('/certification');
-            $fileName = $student->name.$product->title.time().'.pdf';
-            if (!File::exists($location)) {
-                File::makeDirectory($location, $mode = 0755, true, true);
-            }
-            $mpdf->Output($location . '/' . $fileName, 'F');
-
-            $booking->certification = "certification/".$fileName;
-            $booking->save();
-        }
 
         if ($ee){
             flash()->error("There Is Something Wrong In Api , Please Concat Technical Support");
@@ -457,7 +428,12 @@ class CoursesController extends Controller
             ]);
 
             $mpdf->setAutoTopMargin = 'stretch';
-            $view = view('admin.certification',compact(['product','student','instructor']));
+            $mpdf->autoScriptToLang = true;
+            $mpdf->autoLangToFont = true;
+            $mpdf->SetDirectionality('rtl');
+
+            $view = view('admin.certification',compact(['product','student','instructor','booking']));
+
             $mpdf->WriteHTML($view->render());
             $location = public_path('/certification');
             $fileName = $student->name.$product->title.time().'.pdf';
@@ -527,5 +503,21 @@ class CoursesController extends Controller
         flash()->success("تم الارسال بنجاح .. شكرا لتقيم الدوره");
 
         return \redirect()->route("course/mycourses");
+    }
+
+    public function certifications($studentId , $courseId , Request $request){
+        $student = User::where("id",$studentId)->first();
+        $product = Product::where("id",$courseId)->first();
+        $instructor = Admin::where("id",$product->user_id)->first();
+        $booking = Booking::where("status" , 1)->where("user_id" , $studentId)->where("course_id" , $courseId)->first();
+
+        if ($booking){
+            if ($booking->success_status){
+                return view('admin.certification',compact(['product','student','instructor','booking']));
+            }
+        }
+
+        return \redirect()->route('/');
+
     }
 }

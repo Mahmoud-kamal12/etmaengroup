@@ -20,6 +20,9 @@ Route::get('/', function () {
     $LastNews = News::orderBy('id','DESC')->take(6)->get();
     return view('welcome',compact('LastCourses','LastNews'));
 });
+
+
+
 Route::get('/home', function () {
     $LastCourses = Product::orderBy('id','DESC')->take(4)->get();
     $LastNews = News::orderBy('id','DESC')->take(6)->get();
@@ -151,6 +154,9 @@ Route::prefix('traineeGuides')->group(function (){
 
 
 Route::group([ 'namespace' => 'App\Http\Controllers\Front' ],function(){
+
+    Route::get('/certifications/{student}/{course}', 'CoursesController@certifications')->name("certifications");
+
 
     Route::get('/gallery', 'HomeController@gallery')->name('gallery');
     Route::get('/trainee_questionnaire', 'HomeController@trainee_questionnaire')->name('trainee_questionnaire');

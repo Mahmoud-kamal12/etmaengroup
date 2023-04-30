@@ -31,7 +31,7 @@
     </style>
 </head>
 <body>
-<div style="margin-bottom: 40px;height: 510px;background-image: url('{{public_path("admin/certificationsimages/Untitled.png")}}');background-size: contain;background-repeat: no-repeat;background-position: center;">
+<div style="margin-bottom: 40px;height: 510px;background-image: url('{{asset("admin/certificationsimages/Untitled.png")}}');background-size: contain;background-repeat: no-repeat;background-position: center;">
     <div style="display: flex;justify-content: center;align-items: center;flex-direction: column;height: 100%;">
         <h3>شــــــــهادة حضور برنامج تدريبي </h3>
         <h4>يشهد مركز اطمئن للارشاد الاسري بان الطفل  </h4>
@@ -48,7 +48,7 @@
             </div>
             <div style="width: 50%;display: flex;align-items: center;flex-direction: column;">
                 <h5>الختم</h5>
-                <img src="{{public_path("admin/certificationsimages/image-removebg-preview.png")}}" style="height: 90px;margin-top: -20px;">
+                <img src="{{asset("admin/certificationsimages/image-removebg-preview.png")}}" style="height: 90px;margin-top: -20px;">
             </div>
         </div>
     </div>
