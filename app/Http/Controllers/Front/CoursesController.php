@@ -515,9 +515,10 @@ class CoursesController extends Controller
             if ($booking->success_status){
                 return view('admin.certification',compact(['product','student','instructor','booking']));
             }
+            return \redirect()->route('home');
         }
 
-        return \redirect()->route('/');
+        return \redirect()->route('home');
 
     }
 }

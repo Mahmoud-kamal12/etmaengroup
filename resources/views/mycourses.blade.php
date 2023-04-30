@@ -31,7 +31,7 @@
                   @endif
 
                    @if($booking->certification)
-                       <a class="text-success" target="_blank" href="{{route("certifications" ,$booking->user_id,$booking->course_id)}}"> تحميل الشهاده </a>
+                       <a class="text-success" target="_blank" href="{{route("certifications" ,[$booking->user_id,$booking->course_id])}}"> تحميل الشهاده </a>
                    @else
                    @endif
 
