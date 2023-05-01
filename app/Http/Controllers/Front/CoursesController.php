@@ -365,14 +365,14 @@ class CoursesController extends Controller
             flash()->error("يجب التسجيل فى الدوره لاداء الاختبار الخاص");
             return \redirect()->route("course/mycourses");
         }
-        if ($booking->quiz !== null and $booking->marked == 0){
-            flash()->success("تم  ارسال الاجابات من قبل .. وسيتم مراجعة الاجابات والمتابعه من خلال البريد الالكترونى");
-            return \redirect()->route("course/mycourses");
-        }
-        if ($booking->quiz !== null and $booking->marked == 1){
-            flash()->success("تم مراجعة الاختبار اذا كان لديك اى تعليقات اخرى تواصل عن طريق البريد الالكترونى ");
-            return \redirect()->route("course/mycourses");
-        }
+//        if ($booking->quiz !== null and $booking->marked == 0){
+//            flash()->success("تم  ارسال الاجابات من قبل .. وسيتم مراجعة الاجابات والمتابعه من خلال البريد الالكترونى");
+//            return \redirect()->route("course/mycourses");
+//        }
+//        if ($booking->quiz !== null and $booking->marked == 1){
+//            flash()->success("تم مراجعة الاختبار اذا كان لديك اى تعليقات اخرى تواصل عن طريق البريد الالكترونى ");
+//            return \redirect()->route("course/mycourses");
+//        }
 //        dd($product->quiz );
         return view("quizcourse" ,compact(["product"]));
     }
@@ -452,6 +452,7 @@ class CoursesController extends Controller
 
     public function quiz_rate($request , $id){
         $booking = Booking::where("id" , $id)->first();
+        $oldRaw = $booking->raw;
         $booking->max = $request['max'];
         $booking->raw = $request['raw'];
         $booking->success_status = $request['success_status'];
@@ -463,13 +464,14 @@ class CoursesController extends Controller
         $instructor = Admin::where("id",$product->user_id)->first();
 
 
+
         $re = $this->nationalElearningCenterService->attempted($booking,$student,$product);
         $ee = str_contains($re , "The Requested URL Was Rejected. Please Consult With Your Administrator");
         if ($ee){
             return "Error There Is Something Wrong In Api attempted, Please Concat Technical Support attempted";
         }
 
-        if ($booking->success_status){
+        if ($request['success_status'] && $request['raw'] > $oldRaw){
             $re = $this->nationalElearningCenterService->earned($booking,$student,$product);
             $ee = str_contains($re , "The Requested URL Was Rejected. Please Consult With Your Administrator");
             if ($ee){
