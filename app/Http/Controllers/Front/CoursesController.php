@@ -502,6 +502,12 @@ class CoursesController extends Controller
             if ($ee){
                 return "Error There Is Something Wrong In Api earned, Please Concat Technical Support earned";
             }
+
+            if(count(explode('-', $re)) == count(explode('-', $uuid_pattern))) {
+                $booking->earned_date = date('Y-m-d H:i:s');
+                $booking->uuid_earned = $re;
+                $booking->save();
+            }
         }
 
         return "success";
