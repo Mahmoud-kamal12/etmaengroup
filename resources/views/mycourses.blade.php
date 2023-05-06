@@ -20,7 +20,7 @@
                 </button>
                     <p class="d-inline text-warning"> ( {{$booking->uuid_completed  == null ? "غير مكتمل"  :  "مكتمل"}} ) </p>
                     </div>
-                  @if($booking->uuid_completed  == null)
+                  @if(!$booking->temp_complete)
                       <a class="text-info" href="#"> يجب اكمال الدوره لاداء الاختبار </a>
 
                   @else

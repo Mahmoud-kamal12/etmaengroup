@@ -466,7 +466,7 @@ class NationalElearningCenterService
     {
         $courseUrl = route("course/details" , $course->id);
         $cercourseUrl = route("course/details" , $course->id) . ".CF" . $course->id . $user->id;
-
+        $cerlink = route("certifications" ,[$booking->user_id,$booking->course_id]);
         if(mb_detect_encoding($course->title) !== 'UTF-8'){ $lang_title = "en-US"; }else{ $lang_title = "ar-SA"; }
         if(mb_detect_encoding($course->description) !== 'UTF-8'){ $lang_description = "en-US"; }else{ $lang_description = "ar-SA"; }
         $data = [
@@ -491,6 +491,7 @@ class NationalElearningCenterService
                 "platform" => "ETMAEN_001",
                 "language" => "ar-SA",
                 "extensions" =>[
+                    "http://id.tincanapi.com/extension/jws-certificate-location" => $cerlink,
                     "https://nelc.gov.sa/extensions/platform" => [
                         "name" => [
                             "ar-SA" => "معهد اطمئن للتدريب",

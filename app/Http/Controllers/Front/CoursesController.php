@@ -125,7 +125,9 @@ class CoursesController extends Controller
                 if (empty($differenceArray)){
                     $booking = Booking::where("status" , 1)->where("user_id" , $student->id)->where("course_id" , $course->id)->whereNull("uuid_completed")->first();
                     if ($booking){
-                        $res = $this->bookingRepository->BookingCompleted($booking->id, true);
+//                        $res = $this->bookingRepository->BookingCompleted($booking->id, true);
+                        $booking->temp_complete = true;
+                        $booking->save();
                     }
                 }
 //                $CourseLessons = DB::select("SELECT * FROM lessons WHERE product_id = ".$course->id."");
@@ -469,6 +471,22 @@ class CoursesController extends Controller
         $ee = str_contains($re , "The Requested URL Was Rejected. Please Consult With Your Administrator");
         if ($ee){
             return "Error There Is Something Wrong In Api attempted, Please Concat Technical Support attempted";
+        }
+
+        $CourseLessons = Lessons::where("product_id" , $product->id)->get();
+
+        $watchedLessons = BookingLessons::where("user_id" , $student->id)->where("course_id" , $product->id)->get();
+        $differenceArray = array_diff($CourseLessons->pluck("id")->toArray() , $watchedLessons->pluck("lesson_id")->toArray());
+
+        if (empty($differenceArray)){
+            $booking = Booking::where("status" , 1)->where("user_id" , $student->id)->where("course_id" , $product->id)->whereNull("uuid_completed")->first();
+            if ($booking){
+                $resw = $this->bookingRepository->BookingCompleted($booking->id, true);
+                if ($resw == "Error"){
+                    flash()->error("There Is Something Wrong In Api , Please Concat Technical Support");
+                    return back();
+                }
+            }
         }
 
         if ($request['success_status'] && $request['raw'] > $oldRaw){
