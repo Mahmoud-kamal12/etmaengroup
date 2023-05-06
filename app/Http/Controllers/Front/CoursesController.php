@@ -473,6 +473,13 @@ class CoursesController extends Controller
             return "Error There Is Something Wrong In Api attempted, Please Concat Technical Support attempted";
         }
 
+        $uuid_pattern = "250fdeae-fe97-483a-b868-412eec2fc505";
+        if(count(explode('-', $re)) == count(explode('-', $uuid_pattern))) {
+            $booking->attempted_date = date('Y-m-d H:i:s');
+            $booking->uuid_attempted = $re;
+            $booking->save();
+        }
+
         $CourseLessons = Lessons::where("product_id" , $product->id)->get();
 
         $watchedLessons = BookingLessons::where("user_id" , $student->id)->where("course_id" , $product->id)->get();
